@@ -1,38 +1,166 @@
-.App {
+body {
+  background-color: #0a5f40;
+  color: rgba(0, 0, 0, 0.8);
+  font-family: "Rubik", sans-serif;
+}
+
+h1 {
+  font-size: 64px;
+  margin-left: 100px;
+
+  color: #ffffff;
+}
+
+p {
+  margin-top: 0;
+}
+
+.scroll-box {
+  align-content: right;
+  margin: 0 0 0 950px;
+  width: 100%;
+  height: 1000px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.header-box {
+  font-family: "Barlow Condensed", sans-serif;
+
+  text-shadow: 1px 2px 4px #000000;
+  background-color: #008542;
+  margin: 0px 300px 0 -5px;
+  width: 100%;
+  padding: 1px;
+  border-style: groove;
+  border-width: 4px;
+  border-color: #0a5f40;
+  border-radius: 8px;
+}
+
+.main-box {
+  background-color: #ffffff;
+  margin: 20px;
+  padding-bottom: 40px;
+  box-shadow: 5px 5px 8px #000000;
+  border-radius: 8px;
+}
+
+.main-color-box {
+  background-color: rgba(157, 238, 216, 0.1);
+
+  height: 100%;
+  border-radius: 8px;
+}
+
+.content {
+  position: relative;
+  padding: 40px;
+  font-size: 24px;
+  margin: 36px;
+  background-color: #ffffff;
+  width: 32%;
+  border-width: 1px;
+  box-shadow: 5px 5px 8px #496b49;
+  border-color: #0a5f40;
+  max-width: 45%;
+  display: inline-block;
+  border-style: solid;
+}
+
+.content-button {
+  width: 30%;
+  height: 50px;
+  margin-left: 4px;
+  margin-top: 4px;
+  padding: 1px;
+  background-color: #008542;
+  font-family: "Rubik", sans-serif;
+
+  border: 0;
+  font-size: 14px;
+  border-width: 1px;
+  border-color: #0a5f40;
+  color: #ffffff;
+}
+
+.content-button:hover {
+  cursor: pointer;
+}
+
+.content-text {
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 700px) {
+  body {
+    max-width: 500px;
+  }
+
+  h1 {
+    margin-left: 12px;
+    font-size: 48px;
+  }
+
+  .content {
+    margin: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 80%;
+  }
+
+  .scroll-box {
+    display: none;
+  }
+
+  .content-button {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media only screen and (min-width: 701px) and (max-width: 780px) {
+  .scroll-box {
+    display: none;
+  }
+
+  .content {
+    margin: 6px;
+    width: 30%;
+  }
+}
+
+@media only screen and (min-width: 781px) and (max-width: 940px) {
+  .scroll-box {
+    display: none;
+  }
+
+  .content {
+    margin: 24px;
+    width: 30%;
+  }
+}
+
+@media only screen and (min-width: 941px) and (max-width: 1280px) {
+  .main-box {
+    width: 900px;
+  }
+}
+
+.close-content {
+  position: absolute;
+  right: 0;
+  top: 0;
   text-align: center;
+  font-size: 8px;
+  height: 30px;
+  width: 30px;
+  padding: 0;
+  margin: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.content-details {
+  font-size: 0.6em;
+  text-align: right;
 }

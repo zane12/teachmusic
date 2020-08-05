@@ -1,0 +1,29 @@
+.scroll-box {
+  padding: 16px;
+}
+.teacher-name {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 24px;
+  margin-top: 12px;
+
+  color: #ffffff;
+
+  text-shadow: 1px 2px 4px #000000;
+}
+li {
+  background-color: #008542;
+  color: #ffffff;
+  text-shadow: 1px 2px 4px #000000;
+  box-shadow: 5px 5px 8px #000000;
+  margin-bottom: 66px;
+
+  padding: 20px;
+  list-style: none;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+li:hover {
+  cursor: pointer;
+}
