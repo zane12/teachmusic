@@ -20,7 +20,11 @@
 }
 
 .expand-login-container {
-  height: 350px;
+  height: 420px;
+}
+
+.expand-expand-login-container {
+  height: 460px;
 }
 .login-input-text {
   background-color: white;
@@ -53,11 +57,13 @@
 .login-input-button {
   /* background-color: #ffd58e;
   border: 0; */
+  cursor: pointer;
   height: 28px;
   width: 160px;
   padding-left: 8px;
 
   font-size: 16px;
+
   margin: auto;
 
   color: #494949 !important;
@@ -80,4 +86,11 @@
   margin-top: 8px;
   font-weight: normal;
   color: whitesmoke;
+}
+
+.auth-button {
+  width: 240px;
+  font-weight: normal;
+  text-decoration: none;
+  padding-top: 8px;
 }

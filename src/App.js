@@ -1,5 +1,6 @@
 import React from "react";
 import StudentCard from "./Cards/StudentCard";
+
 import Login from "./Login/Login";
 import "./App.css";
 import Dashboard from "./Dashboard/Dashboard";
@@ -32,7 +33,7 @@ class App extends React.Component {
 
   async refreshContent() {
     if (this.state.refresh) {
-      await fetch("http://10.0.0.38:8080/student")
+      await fetch("/student")
         .then((res, req) => {
           const response = res.json();
 
@@ -60,11 +61,17 @@ class App extends React.Component {
   }
 
   handleLogin() {
-    this.setState({
-      loggedInAsTeacher: true,
-      teacherToken: window.sessionStorage.getItem("token"),
-      teacher: window.sessionStorage.getItem("teacher"),
-    });
+    this.setState(
+      {
+        loggedInAsTeacher: true,
+        teacherToken: window.sessionStorage.getItem("token"),
+        teacher: window.sessionStorage.getItem("teacher"),
+        teacherId: window.sessionStorage.getItem("teacherId"),
+      },
+      () => {
+        window.location = "http://10.0.0.38:3000";
+      }
+    );
   }
 
   handleLogout() {

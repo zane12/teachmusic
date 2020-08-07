@@ -10,6 +10,12 @@ class Login extends React.Component {
       emailValue: "",
       passwordValue: "",
       errorMessage: "",
+      confirmEmail: "",
+      confirmPassword: "",
+      registerInfo: false,
+      registerName: "",
+      calendarAuth: "",
+      showAuth: false,
     };
 
     this.emailChangeHandler = this.emailChangeHandler.bind(this);
@@ -27,6 +33,10 @@ class Login extends React.Component {
             type="text"
             name="email-confirm"
             placeholder="Confirm E-mail"
+            value={this.state.confirmEmail}
+            onChange={(e) => {
+              this.setState({ confirmEmail: e.target.value });
+            }}
           ></input>
           <br />
           <br />
@@ -44,9 +54,11 @@ class Login extends React.Component {
         <div>
           <input
             className="login-input-text"
-            type="text"
+            type="password"
             name="password-confirm"
             placeholder="Confirm Password"
+            value={this.state.confirmPassword}
+            onChange={(e) => this.setState({ confirmPassword: e.target.value })}
           ></input>
           <br />
           <br />
@@ -55,6 +67,29 @@ class Login extends React.Component {
     }
 
     return registerPasswordInput;
+  }
+
+  registerNameHandler() {
+    let registerNameInput = null;
+
+    if (this.state.addRegisterInput) {
+      registerNameInput = (
+        <div>
+          <input
+            className="login-input-text"
+            type="text"
+            name="name"
+            placeholder="Full name"
+            value={this.state.registerName}
+            onChange={(e) => this.setState({ registerName: e.target.value })}
+          ></input>
+          <br />
+          <br />
+        </div>
+      );
+    }
+
+    return registerNameInput;
   }
 
   onRegisterClick(event) {
@@ -70,35 +105,80 @@ class Login extends React.Component {
     }
   }
 
-  onEnterClick(event) {
+  async onEnterClick(event) {
     event.preventDefault();
 
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    if (!this.state.addRegisterInput) {
+      // Handles logging in and (if present) sends calendar authorization code
+      //  to server to store with teacher's tokens
+
+      const params = new URLSearchParams(window.location.search);
+
+      const body = {
         email: this.state.emailValue,
         password: this.state.passwordValue,
-      }),
-    };
+      };
 
-    fetch("http://10.0.0.38:8080/teacher/login", requestOptions)
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        } else {
-          throw new Error("User not found.");
-        }
-      })
-      .then((data) => {
-        window.sessionStorage.setItem("token", data.token);
-        window.sessionStorage.setItem("teacher", data.teacher.name);
-        window.sessionStorage.setItem("teacherId", data.teacher._id);
-      })
-      .then((res) => {
-        this.props.onLogin();
-      })
-      .catch((e) => this.setState({ errorMessage: e.message }));
+      if (params.get("code")) {
+        body.calendarAuthCode = params.get("code");
+      }
+
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      };
+
+      await fetch("/teacher/login", requestOptions)
+        .then((res) => {
+          if (res.status === 200) {
+            return res.json();
+          } else {
+            throw new Error("User not found.");
+          }
+        })
+        .then((data) => {
+          window.sessionStorage.setItem("token", data.token);
+          window.sessionStorage.setItem("teacher", data.teacher.name);
+          window.sessionStorage.setItem("teacherId", data.teacher._id);
+        })
+        .then((res) => {
+          this.props.onLogin();
+        })
+        .catch((e) => this.setState({ errorMessage: e.message }));
+    } else {
+      // Handles registration when the registration form is active
+      if (
+        this.state.emailValue.trim() === this.state.confirmEmail.trim() &&
+        this.state.passwordValue.trim() === this.state.confirmPassword.trim()
+      ) {
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: this.state.registerName,
+            email: this.state.emailValue,
+            password: this.state.passwordValue,
+          }),
+        };
+        await fetch("/teacher", requestOptions)
+          .then((res) => {
+            if (res.status === 201) {
+              return res.json();
+            } else
+              throw new Error(
+                res.status.toString() + " Error creating account"
+              );
+          })
+          .then((res) => {
+            const calendarAuth = res.calendarAuth;
+            this.setState({ calendarAuth, showAuth: true });
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    }
   }
 
   emailChangeHandler(event) {
@@ -109,11 +189,33 @@ class Login extends React.Component {
     this.setState({ passwordValue: event.target.value });
   }
 
+  authorizeButton() {
+    if (this.state.showAuth) {
+      console.log(this.state.calendarAuth);
+      return (
+        <a
+          href={this.state.calendarAuth}
+          className="login-input-button auth-button"
+          name="Authorize"
+        >
+          Authorize Google Calendar
+        </a>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     let loginContainer = "login-container";
+    let registerButtonText = "Register";
 
     if (this.state.register) {
       loginContainer += " expand-login-container";
+      registerButtonText = "Cancel";
+      if (this.state.showAuth) {
+        loginContainer += " expand-expand-login-container";
+      }
     }
 
     return (
@@ -125,6 +227,7 @@ class Login extends React.Component {
       >
         <div className="login-box">
           <form onTransitionEnd={(event) => event.stopPropagation()}>
+            {this.registerNameHandler()}
             <input
               className="login-input-text"
               type="text"
@@ -162,8 +265,11 @@ class Login extends React.Component {
               name="Register"
               onClick={this.onRegisterClick.bind(this)}
             >
-              Register
+              {registerButtonText}
             </button>
+            <br />
+            <br />
+            {this.authorizeButton()}
           </form>
         </div>
         <div>
