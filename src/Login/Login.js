@@ -16,6 +16,7 @@ class Login extends React.Component {
       registerName: "",
       calendarAuth: "",
       showAuth: false,
+      addAuthButton: false,
     };
 
     this.emailChangeHandler = this.emailChangeHandler.bind(this);
@@ -143,6 +144,7 @@ class Login extends React.Component {
           window.sessionStorage.setItem("teacherId", data.teacher._id);
         })
         .then((res) => {
+          window.location = "/";
           this.props.onLogin();
         })
         .catch((e) => this.setState({ errorMessage: e.message }));
@@ -171,7 +173,7 @@ class Login extends React.Component {
               );
           })
           .then((res) => {
-            const calendarAuth = res.calendarAuth;
+            const calendarAuth = res.calendarAuthURL;
             this.setState({ calendarAuth, showAuth: true });
           })
           .catch((e) => {
@@ -190,8 +192,7 @@ class Login extends React.Component {
   }
 
   authorizeButton() {
-    if (this.state.showAuth) {
-      console.log(this.state.calendarAuth);
+    if (this.state.addAuthButton) {
       return (
         <a
           href={this.state.calendarAuth}
@@ -222,7 +223,10 @@ class Login extends React.Component {
       <div
         className={loginContainer}
         onTransitionEnd={() => {
-          this.setState({ addRegisterInput: this.state.register });
+          this.setState({
+            addRegisterInput: this.state.register,
+            addAuthButton: this.state.showAuth,
+          });
         }}
       >
         <div className="login-box">

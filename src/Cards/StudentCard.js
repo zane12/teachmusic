@@ -90,7 +90,11 @@ class StudentCard extends React.Component {
       );
     }
 
-    return <div className="content">{cardContent}</div>;
+    return (
+      <div className="content" key={this.props.student._id}>
+        {cardContent}
+      </div>
+    );
   }
 }
 

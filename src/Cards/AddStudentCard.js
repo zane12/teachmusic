@@ -11,7 +11,7 @@ class AddStudentCard extends React.Component {
     this.state = {
       isPressed: false,
       dateDisplayValue: "First Lesson Date/Time",
-      dateValue: "",
+      dateValue: new Date(),
       dateError: "",
       sName: "",
       sNameError: "",
@@ -32,6 +32,7 @@ class AddStudentCard extends React.Component {
       lessonDay: moment(this.state.dateValue).day(),
       lessonHour: moment(this.state.dateValue).hour(),
       lessonMinute: moment(this.state.dateValue).minute(),
+      firstLesson: this.state.dateValue,
     };
 
     const newStudent = {
@@ -46,6 +47,7 @@ class AddStudentCard extends React.Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + window.sessionStorage.getItem("token"),
       },
       body: JSON.stringify(newStudent),
     })
@@ -56,7 +58,7 @@ class AddStudentCard extends React.Component {
           this.setState({
             isPressed: false,
             dateDisplayValue: "First Lesson Date/Time",
-            dateValue: "",
+            dateValue: new Date(),
             sName: "",
             cName: "",
             email: "",
@@ -212,7 +214,12 @@ class AddStudentCard extends React.Component {
           <p className="content-text">
             Add New Student <br />
           </p>
-
+          <p
+            style={{ color: "white" }}
+            className="content-text content-details"
+          >
+            .
+          </p>
           <button
             className="content-button"
             href=""
@@ -220,7 +227,7 @@ class AddStudentCard extends React.Component {
               this.setState({ isPressed: !this.state.isPressed });
             }}
           >
-            Add New Student
+            Add
           </button>
         </div>
       );

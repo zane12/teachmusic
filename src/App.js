@@ -61,17 +61,12 @@ class App extends React.Component {
   }
 
   handleLogin() {
-    this.setState(
-      {
-        loggedInAsTeacher: true,
-        teacherToken: window.sessionStorage.getItem("token"),
-        teacher: window.sessionStorage.getItem("teacher"),
-        teacherId: window.sessionStorage.getItem("teacherId"),
-      },
-      () => {
-        window.location = "http://10.0.0.38:3000";
-      }
-    );
+    this.setState({
+      loggedInAsTeacher: true,
+      teacherToken: window.sessionStorage.getItem("token"),
+      teacher: window.sessionStorage.getItem("teacher"),
+      teacherId: window.sessionStorage.getItem("teacherId"),
+    });
   }
 
   handleLogout() {
