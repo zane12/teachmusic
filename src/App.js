@@ -33,7 +33,7 @@ class App extends React.Component {
 
   async refreshContent() {
     if (this.state.refresh) {
-      await fetch("/student")
+      await fetch("/student", { headers: { Authorization: this.state.token } })
         .then((res, req) => {
           const response = res.json();
 
@@ -70,7 +70,14 @@ class App extends React.Component {
   }
 
   handleLogout() {
-    this.setState({ loggedInAsTeacher: false, teacherToken: "", teacher: {} });
+    this.setState({
+      refresh: true,
+      students: [],
+      loggedInAsTeacher: false,
+      teacher: undefined,
+      teacherId: undefined,
+      teacherToken: undefined,
+    });
     window.sessionStorage.removeItem("token");
     window.sessionStorage.removeItem("teacher");
     window.sessionStorage.removeItem("teacherId");
