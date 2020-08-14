@@ -1,10 +1,13 @@
 import React from "react";
 import moment from "moment";
+import ChangeStudentCard from "./ChangeStudentCard";
+import StopStudentCard from "./StopStudentCard";
 
 class StudentCard extends React.Component {
   state = {
     infoIsPressed: false,
     changeIsPressed: false,
+    stopIsPressed: false,
     isPressed: true,
   };
 
@@ -36,26 +39,63 @@ class StudentCard extends React.Component {
     const timeString = lessonMoment.format("dddd [at] hh:mm a");
 
     let cardContent = [
-      <p className="content-text">{this.props.student.name}</p>,
-      <p className="content-text content-details">{timeString}</p>,
+      <p key={this.props.student._id + "-1"} className="content-text">
+        {this.props.student.name}
+      </p>,
+      <p
+        key={this.props.student._id + "-2"}
+        className="content-text content-details"
+      >
+        {timeString}
+      </p>,
     ];
 
     cardContent.push(this.addInfo());
 
     if (this.state.changeIsPressed) {
       cardContent = [
-        <button
-          className="close-content content-button"
-          onClick={() => {
-            this.setState({ changeIsPressed: false });
-          }}
-        >
-          X
-        </button>,
+        <div key={this.props.student._id}>
+          <button
+            className="close-content content-button"
+            onClick={() => {
+              this.setState({ changeIsPressed: false });
+            }}
+          >
+            X
+          </button>
+          <ChangeStudentCard
+            exit={() => {
+              this.props.refresh();
+              this.setState({ changeIsPressed: false });
+            }}
+            student={this.props.student}
+          />
+        </div>,
+      ];
+    } else if (this.state.stopIsPressed) {
+      cardContent = [
+        <div key={this.props.student._id}>
+          <button
+            className="close-content content-button"
+            onClick={() => {
+              this.setState({ stopIsPressed: false });
+            }}
+          >
+            X
+          </button>
+          <StopStudentCard
+            exit={() => {
+              this.props.refresh();
+              this.setState({ stopIsPressed: false });
+            }}
+            student={this.props.student}
+          />
+        </div>,
       ];
     } else {
       cardContent.push(
         <button
+          key={this.props.student._id + "-Info"}
           className="content-button"
           href=""
           onClick={() => {
@@ -67,6 +107,7 @@ class StudentCard extends React.Component {
       );
       cardContent.push(
         <button
+          key={this.props.student._id + "-Change"}
           className="content-button"
           href=""
           onClick={() => {
@@ -78,14 +119,14 @@ class StudentCard extends React.Component {
       );
       cardContent.push(
         <button
+          key={this.props.student._id + "-Stop"}
           className="content-button"
           href=""
           onClick={() => {
-            this.setState({ isPressed: !this.state.isPressed });
-            console.log(this.state.isPressed);
+            this.setState({ stopIsPressed: !this.state.stopIsPressed });
           }}
         >
-          Stop/Hold
+          Stop
         </button>
       );
     }

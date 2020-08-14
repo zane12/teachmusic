@@ -1,6 +1,6 @@
 import React from "react";
 import "./datetime.css";
-import "./addStudent.css";
+import "./studentForm.css";
 import Datetime from "react-datetime";
 import moment from "moment";
 

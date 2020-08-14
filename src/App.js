@@ -54,7 +54,16 @@ class App extends React.Component {
     let studentContent = null;
 
     studentContent = students.map((student) => {
-      return <StudentCard student={student} key={student._id} />;
+      return (
+        <StudentCard
+          refresh={() => {
+            this.setState({ refresh: true });
+            this.refreshContent();
+          }}
+          student={student}
+          key={student._id}
+        />
+      );
     });
 
     return studentContent;

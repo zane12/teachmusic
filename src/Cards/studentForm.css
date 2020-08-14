@@ -32,3 +32,10 @@
   height: 0;
   margin: 0;
 }
+
+.change-student-button {
+  height: 7.5em;
+  width: 8em;
+  margin: 12px;
+  align-content: center;
+}
