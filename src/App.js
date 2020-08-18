@@ -1,19 +1,21 @@
 import React from "react";
-import StudentCard from "./Cards/StudentCard";
 
 import Login from "./Login/Login";
 import "./App.css";
 import Dashboard from "./Dashboard/Dashboard";
-import AddStudentCard from "./Cards/AddStudentCard";
+
+import CalendarView from "./Views/CalendarView";
+import StudentView from "./Views/StudentView";
+import LessonsView from "./Views/LessonsView";
 
 class App extends React.Component {
   state = {
-    refresh: true,
-    students: [],
     loggedInAsTeacher: false,
     teacher: undefined,
     teacherId: undefined,
     teacherToken: undefined,
+    calendarSelected: false,
+    studentsSelected: true,
   };
 
   componentDidMount() {
@@ -26,47 +28,33 @@ class App extends React.Component {
         loggedInAsTeacher: true,
         teacher: window.sessionStorage.getItem("teacher"),
         teacherId: window.sessionStorage.getItem("teacherId"),
-        token: window.sessionStorage.getItem("token"),
+        teacherToken: window.sessionStorage.getItem("token"),
       });
     }
   }
 
-  async refreshContent() {
-    if (this.state.refresh) {
-      await fetch("/student", { headers: { Authorization: this.state.token } })
-        .then((res, req) => {
-          const response = res.json();
-
-          return response;
-        })
-        .then((response) => {
-          return this.setState({ students: response });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-
-      this.setState({ refresh: false });
-    }
+  onStudentsPress(e) {
+    this.setState({
+      studentsSelected: true,
+      calendarSelected: false,
+      lessonsSelected: false,
+    });
   }
 
-  contentCardHandler(students) {
-    let studentContent = null;
-
-    studentContent = students.map((student) => {
-      return (
-        <StudentCard
-          refresh={() => {
-            this.setState({ refresh: true });
-            this.refreshContent();
-          }}
-          student={student}
-          key={student._id}
-        />
-      );
+  onCalendarPress(e) {
+    this.setState({
+      calendarSelected: true,
+      studentsSelected: false,
+      lessonsSelected: false,
     });
+  }
 
-    return studentContent;
+  onLessonsPress(e) {
+    this.setState({
+      lessonsSelected: true,
+      studentsSelected: false,
+      calendarSelected: false,
+    });
   }
 
   handleLogin() {
@@ -81,7 +69,6 @@ class App extends React.Component {
   handleLogout() {
     this.setState({
       refresh: true,
-      students: [],
       loggedInAsTeacher: false,
       teacher: undefined,
       teacherId: undefined,
@@ -93,15 +80,43 @@ class App extends React.Component {
   }
 
   render() {
+    let view = null;
+
+    if (this.state.studentsSelected) {
+      view = (
+        <StudentView
+          teacher={this.state.teacher}
+          teacherId={this.state.teacherId}
+          teacherToken={this.state.teacherToken}
+        />
+      );
+    } else if (this.state.calendarSelected) {
+      view = (
+        <CalendarView
+          teacher={this.state.teacher}
+          teacherId={this.state.teacherId}
+          teacherToken={this.state.teacherToken}
+        />
+      );
+    } else if (this.state.lessonsSelected) {
+      view = (
+        <LessonsView
+          teacher={this.state.teacher}
+          teacherId={this.state.teacherId}
+          teacherToken={this.state.teacherToken}
+        />
+      );
+    }
     if (this.state.loggedInAsTeacher) {
-      this.refreshContent();
       return (
         <div style={{ maxWidth: "940px" }}>
           {" "}
           <div className="scroll-box">
             <Dashboard
+              onStudentsPress={this.onStudentsPress.bind(this)}
+              onCalendarPress={this.onCalendarPress.bind(this)}
+              onLessonsPress={this.onLessonsPress.bind(this)}
               teacher={this.state.teacher}
-              teacherId={this.state.teacherId}
             />
             <p onClick={this.handleLogout.bind(this)}>Logout</p>
           </div>
@@ -110,13 +125,7 @@ class App extends React.Component {
               <div className="header-box">
                 <h1>Teachmusic</h1>
               </div>
-              {this.contentCardHandler(this.state.students)}
-              <AddStudentCard
-                refresh={() => {
-                  this.setState({ refresh: true });
-                  this.refreshContent();
-                }}
-              />
+              {view}
             </div>
           </div>
         </div>

@@ -6,7 +6,6 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      teacherId: this.props.teacherId,
       teacherName: this.props.teacher,
     };
   }
@@ -16,9 +15,21 @@ class Dashboard extends React.Component {
       <div>
         <p className="teacher-name">{this.state.teacherName}</p>
         <ul>
-          <li className="scroll-box-button">Students</li>
-          <li className="scroll-box-button">Calendar</li>
-          <li className="scroll-box-button">Today's Lessons</li>
+          <li
+            onClick={this.props.onStudentsPress}
+            className="scroll-box-button"
+          >
+            Students
+          </li>
+          <li
+            onClick={this.props.onCalendarPress}
+            className="scroll-box-button"
+          >
+            Calendar
+          </li>
+          <li onClick={this.props.onLessonsPress} className="scroll-box-button">
+            Lessons
+          </li>
           <li className="scroll-box-button">Account</li>
         </ul>
       </div>

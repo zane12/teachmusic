@@ -14,7 +14,7 @@ class StudentCard extends React.Component {
   addInfo() {
     if (this.state.infoIsPressed) {
       return (
-        <span>
+        <span key={this.props.student._id}>
           <p className="content-text content-details">
             Contact: {this.props.student.contactName}
           </p>

@@ -32,8 +32,8 @@ class StopStudentCard extends React.Component {
     if (this.state.dateChanged) {
       const lessonTime = {
         lessonDay: moment(this.state.dateValue).day(),
-        lessonHour: moment(this.state.dateValue).hour(),
-        lessonMinute: moment(this.state.dateValue).minute(),
+        lessonHour: 0,
+        lessonMinute: 0,
         firstLesson: this.state.dateValue,
       };
 

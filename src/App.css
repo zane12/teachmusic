@@ -56,6 +56,13 @@ p {
   border-radius: 8px;
 }
 
+.calendar-frame {
+  border: solid 1px #777;
+  width: 880px;
+  height: 640px;
+  margin: 8px;
+}
+
 .content {
   vertical-align: middle;
   position: relative;
