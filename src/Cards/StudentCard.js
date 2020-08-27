@@ -36,7 +36,7 @@ class StudentCard extends React.Component {
     lessonMoment.day(this.props.student.lessonTime.lessonDay);
     lessonMoment.minute(this.props.student.lessonTime.lessonMinute);
 
-    const timeString = lessonMoment.format("dddd [at] hh:mm a");
+    const timeString = lessonMoment.format("dddd [at] h:mm a");
 
     let cardContent = [
       <p key={this.props.student._id + "-1"} className="content-text">

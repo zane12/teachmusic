@@ -103,6 +103,38 @@ p {
   white-space: nowrap;
 }
 
+.content-select {
+  margin-left: 12px;
+  height: 20px;
+  width: 200px;
+}
+
+.filters {
+  float: right;
+  margin-right: 40px;
+}
+
+.filters-selected {
+  background-color: #008542;
+  color: #ffffff;
+}
+
+.lesson-filters {
+  display: inline;
+  padding: 8px 16px;
+
+  margin-left: 36px;
+}
+
+.lesson-filters:hover {
+  cursor: pointer;
+}
+
+.no-content {
+  max-width: 80%;
+  width: 80%;
+}
+
 @media only screen and (max-width: 700px) {
   body {
     max-width: 500px;
@@ -175,6 +207,15 @@ p {
   text-align: right;
 }
 
+.content-details-left {
+  text-align: left;
+}
+
+.content-details-border {
+  border: solid 1px #0a5f40;
+  margin: 6px;
+  padding: 8px;
+}
 .hidden {
   display: none;
 }

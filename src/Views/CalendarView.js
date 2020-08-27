@@ -33,7 +33,7 @@ class CalendarView extends React.Component {
 
   render() {
     let calendarUrl = "";
-    if (this.state.calendarName.length > 0) {
+    if (this.state.calendarName) {
       calendarUrl =
         "https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%230B8043&ctz=America%2FChicago&src=" +
         this.state.calendarName +
