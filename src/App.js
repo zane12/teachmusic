@@ -7,6 +7,7 @@ import Dashboard from "./Dashboard/Dashboard";
 import CalendarView from "./Views/CalendarView";
 import StudentView from "./Views/StudentView";
 import LessonsView from "./Views/LessonsView";
+import AccountView from "./Views/AccountView";
 
 class App extends React.Component {
   state = {
@@ -16,6 +17,8 @@ class App extends React.Component {
     teacherToken: undefined,
     calendarSelected: false,
     studentsSelected: true,
+    lessonsSelected: false,
+    accountSelected: false,
   };
 
   componentDidMount() {
@@ -38,6 +41,7 @@ class App extends React.Component {
       studentsSelected: true,
       calendarSelected: false,
       lessonsSelected: false,
+      accountSelected: false,
     });
   }
 
@@ -46,6 +50,7 @@ class App extends React.Component {
       calendarSelected: true,
       studentsSelected: false,
       lessonsSelected: false,
+      accountSelected: false,
     });
   }
 
@@ -54,6 +59,16 @@ class App extends React.Component {
       lessonsSelected: true,
       studentsSelected: false,
       calendarSelected: false,
+      accountSelected: false,
+    });
+  }
+
+  onAccountPress(e) {
+    this.setState({
+      accountSelected: true,
+      lessonsSelected: false,
+      calendarSelected: false,
+      studentsSelected: false,
     });
   }
 
@@ -106,6 +121,14 @@ class App extends React.Component {
           teacherToken={this.state.teacherToken}
         />
       );
+    } else if (this.state.accountSelected) {
+      view = (
+        <AccountView
+          teacher={this.state.teacher}
+          teacherId={this.state.teacherId}
+          teacherToken={this.state.teacherToken}
+        />
+      );
     }
     if (this.state.loggedInAsTeacher) {
       return (
@@ -116,6 +139,7 @@ class App extends React.Component {
               onStudentsPress={this.onStudentsPress.bind(this)}
               onCalendarPress={this.onCalendarPress.bind(this)}
               onLessonsPress={this.onLessonsPress.bind(this)}
+              onAccountPress={this.onAccountPress.bind(this)}
               teacher={this.state.teacher}
             />
             <p onClick={this.handleLogout.bind(this)}>Logout</p>

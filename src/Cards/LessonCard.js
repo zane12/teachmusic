@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import Datetime from "react-datetime";
 
 class LessonCard extends React.Component {
   constructor(props) {
@@ -11,7 +12,23 @@ class LessonCard extends React.Component {
       viewClicked: false,
       showOptions: false,
       lessonOption: this.props.student.lessons[0]._id,
+      dateDisplayValue: "Reschedule Date/Time",
+      dateValue: new Date(),
+      dateChanged: false,
     };
+  }
+
+  dateChangeHandler(dateValue) {
+    this.setState({ dateValue, dateChanged: true });
+
+    const dateDisplayValue = moment(dateValue).format("ddd MMM Do [at] h:mm a");
+
+    this.setState({ dateDisplayValue });
+  }
+
+  dateValidator(current, selected) {
+    const yesterday = Datetime.moment().subtract(1, "day");
+    return current.isAfter(yesterday);
   }
 
   clickMark() {
@@ -94,7 +111,38 @@ class LessonCard extends React.Component {
   }
 
   clickChange() {
-    this.setState({ changeClicked: true });
+    this.setState({ changeClicked: true, showOptions: true });
+  }
+
+  async onChangeSubmit() {
+    if (this.state.dateChanged) {
+      const requestOptions = {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + window.sessionStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          lessonDate: this.state.dateValue,
+        }),
+      };
+
+      await fetch("/lessons/" + this.state.lessonOption, requestOptions).then(
+        (res) => {
+          if (res.status === 200) {
+            this.setState({
+              changeClicked: false,
+              showOptions: false,
+              dateValue: new Date(),
+              dateChanged: false,
+              dateDisplayValue: "Reschedule Date/Time",
+            });
+          } else {
+            console.log(res);
+          }
+        }
+      );
+    }
   }
 
   clickView() {
@@ -191,6 +239,48 @@ class LessonCard extends React.Component {
             No-show
           </button>
           {options}
+        </div>
+      );
+    }
+
+    if (this.state.changeClicked) {
+      return (
+        <div className="content">
+          <button
+            className="close-content content-button"
+            onClick={() => {
+              this.setState({
+                markClicked: false,
+                changeClicked: false,
+                viewClicked: false,
+                showOptions: false,
+                lessonOption: this.props.student.lessons[0]._id,
+                dateDisplayValue: "Reschedule Date/Time",
+                dateValuee: new Date(),
+                dateChanged: false,
+              });
+            }}
+          >
+            X
+          </button>
+          <p className="content-text">Reschedule</p>
+          {options}
+          <Datetime
+            isValidDate={this.dateValidator}
+            timeConstraints={{ minutes: { step: 15 } }}
+            inputProps={{
+              type: "button",
+              className: "content-button calendar-button",
+              value: this.state.dateDisplayValue,
+            }}
+            onChange={this.dateChangeHandler.bind(this)}
+          />
+          <button
+            onClick={this.onChangeSubmit.bind(this)}
+            className="content-button submit-button"
+          >
+            Confirm
+          </button>
         </div>
       );
     }

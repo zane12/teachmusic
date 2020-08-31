@@ -8,7 +8,7 @@ class StopStudentCard extends React.Component {
 
     this.state = {
       dateValue: new Date(),
-      dateIsChanged: false,
+      dateChanged: false,
       dateDisplayValue: "Stop Date",
     };
   }

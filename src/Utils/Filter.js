@@ -10,8 +10,9 @@ class Filter extends React.Component {
       applyFilter: this.props.filter,
       todaySelected: false,
       weekSelected: false,
-      taughtSelected: false,
-      allSelected: true,
+      markedSelected: false,
+      unmarkedSelected: true,
+      allSelected: false,
       filtered: false,
     };
   }
@@ -25,12 +26,12 @@ class Filter extends React.Component {
       this.filterWeek();
     }
 
-    if (this.state.taughtSelected) {
-      this.filterTaught();
+    if (this.state.markedSelected) {
+      this.filterMarked();
     }
 
-    if (this.state.untaughtSelected) {
-      this.filterUntaught();
+    if (this.state.unmarkedSelected) {
+      this.filterUnmarked();
     }
 
     if (this.state.allSelected && !this.state.filtered) {
@@ -96,7 +97,7 @@ class Filter extends React.Component {
     }
   }
 
-  filterTaught() {
+  filterMarked() {
     const filteredLessons = [];
 
     if (!this.state.filtered) {
@@ -109,7 +110,7 @@ class Filter extends React.Component {
         let filteredStu = {};
 
         filteredStu.lessons = stu.lessons.filter((lesson) => {
-          return lesson.taught;
+          return lesson.taught || lesson.cancelled || lesson.noShow;
         });
 
         filteredStu.student = stu.student;
@@ -124,7 +125,7 @@ class Filter extends React.Component {
     }
   }
 
-  filterUntaught() {
+  filterUnmarked() {
     const filteredLessons = [];
 
     if (!this.state.filtered) {
@@ -137,7 +138,11 @@ class Filter extends React.Component {
         let filteredStu = {};
 
         filteredStu.lessons = stu.lessons.filter((lesson) => {
-          return lesson.taught === false;
+          return (
+            lesson.taught === false &&
+            lesson.cancelled === false &&
+            lesson.noShow === false
+          );
         });
 
         filteredStu.student = stu.student;
@@ -161,10 +166,10 @@ class Filter extends React.Component {
             this.setState({
               todaySelected: true,
               weekSelected: false,
-              taughtSelected: false,
+              markedSelected: false,
               allSelected: false,
               filtered: false,
-              untaughtSelected: false,
+              unmarkedSelected: false,
             })
           }
           className={
@@ -181,10 +186,10 @@ class Filter extends React.Component {
             this.setState({
               todaySelected: false,
               weekSelected: true,
-              taughtSelected: false,
+              markedSelected: false,
               allSelected: false,
               filtered: false,
-              untaughtSelected: false,
+              unmarkedSelected: false,
             })
           }
           className={
@@ -201,50 +206,50 @@ class Filter extends React.Component {
             this.setState({
               todaySelected: false,
               weekSelected: false,
-              taughtSelected: true,
+              markedSelected: true,
               allSelected: false,
               filtered: false,
-              untaughtSelected: false,
+              unmarkedSelected: false,
             })
           }
           className={
-            this.state.taughtSelected
+            this.state.markedSelected
               ? "lesson-filters filters-selected"
               : "lesson-filters"
           }
         >
           {" "}
-          Taught{" "}
+          Marked{" "}
         </li>
         <li
           onClick={() =>
             this.setState({
               todaySelected: false,
               weekSelected: false,
-              taughtSelected: false,
-              untaughtSelected: true,
+              markedSelected: false,
+              unmarkedSelected: true,
               allSelected: false,
               filtered: false,
             })
           }
           className={
-            this.state.untaughtSelected
+            this.state.unmarkedSelected
               ? "lesson-filters filters-selected"
               : "lesson-filters"
           }
         >
           {" "}
-          Untaught{" "}
+          Unmarked{" "}
         </li>
         <li
           onClick={() =>
             this.setState({
               todaySelected: false,
               weekSelected: false,
-              taughtSelected: false,
+              markedSelected: false,
               allSelected: true,
               filtered: false,
-              untaughtSelected: false,
+              unmarkedSelected: false,
             })
           }
           className={

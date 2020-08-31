@@ -216,6 +216,35 @@ p {
   margin: 6px;
   padding: 8px;
 }
+
+.account-form {
+  background-color: #08975b;
+  width: 320px;
+
+  padding: 32px;
+  padding-top: 16px;
+  margin: auto;
+  margin-top: 12px;
+
+  text-align: center;
+
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  box-shadow: 4px 4px 8px black;
+  transition: height 0.5s, margin-top 0.4s;
+}
+
+.calendar-button {
+  margin-top: 12px;
+  height: 30px;
+  width: 180px;
+}
+
+.submit-button {
+  margin-top: 12px;
+}
+
 .hidden {
   display: none;
 }

@@ -30,7 +30,9 @@ class Dashboard extends React.Component {
           <li onClick={this.props.onLessonsPress} className="scroll-box-button">
             Lessons
           </li>
-          <li className="scroll-box-button">Account</li>
+          <li onClick={this.props.onAccountPress} className="scroll-box-button">
+            Account
+          </li>
         </ul>
       </div>
     );
