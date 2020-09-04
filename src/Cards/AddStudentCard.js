@@ -43,7 +43,7 @@ class AddStudentCard extends React.Component {
       contactPhone: this.state.phoneNumber,
     };
 
-    await fetch("/student", {
+    await fetch(process.env.REACT_APP_SERVER_URL + "/student", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

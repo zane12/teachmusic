@@ -17,12 +17,18 @@ class CalendarView extends React.Component {
   }
 
   async getCalendarName() {
-    await fetch("/teacher/" + this.state.teacherId + "/calendar", {
-      headers: {
-        Content: "application/json",
-        Authorization: "Bearer " + this.state.teacherToken,
-      },
-    })
+    await fetch(
+      process.env.REACT_APP_SERVER_URL +
+        "/teacher/" +
+        this.state.teacherId +
+        "/calendar",
+      {
+        headers: {
+          Content: "application/json",
+          Authorization: "Bearer " + this.state.teacherToken,
+        },
+      }
+    )
       .then((res) => {
         return res.json();
       })

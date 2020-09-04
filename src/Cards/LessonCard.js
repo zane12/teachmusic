@@ -49,16 +49,17 @@ class LessonCard extends React.Component {
       }),
     };
 
-    await fetch("/lessons/" + this.state.lessonOption, requestOptions).then(
-      (res) => {
-        if (res.status === 200) {
-          this.setState({ markClicked: false, showOptions: false });
-          this.props.refresh();
-        } else {
-          console.log(res);
-        }
+    await fetch(
+      process.env.REACT_APP_SERVER_URL + "/lessons/" + this.state.lessonOption,
+      requestOptions
+    ).then((res) => {
+      if (res.status === 200) {
+        this.setState({ markClicked: false, showOptions: false });
+        this.props.refresh();
+      } else {
+        console.log(res);
       }
-    );
+    });
   }
 
   async markCancelled() {
@@ -75,16 +76,17 @@ class LessonCard extends React.Component {
       }),
     };
 
-    await fetch("/lessons/" + this.state.lessonOption, requestOptions).then(
-      (res) => {
-        if (res.status === 200) {
-          this.setState({ markClicked: false, showOptions: false });
-          this.props.refresh();
-        } else {
-          console.log(res);
-        }
+    await fetch(
+      process.env.REACT_APP_SERVER_URL + "/lessons/" + this.state.lessonOption,
+      requestOptions
+    ).then((res) => {
+      if (res.status === 200) {
+        this.setState({ markClicked: false, showOptions: false });
+        this.props.refresh();
+      } else {
+        console.log(res);
       }
-    );
+    });
   }
 
   async markNoshow() {
@@ -101,16 +103,17 @@ class LessonCard extends React.Component {
       }),
     };
 
-    await fetch("/lessons/" + this.state.lessonOption, requestOptions).then(
-      (res) => {
-        if (res.status === 200) {
-          this.setState({ markClicked: false, showOptions: false });
-          this.props.refresh();
-        } else {
-          console.log(res);
-        }
+    await fetch(
+      process.env.REACT_APP_SERVER_URL + "/lessons/" + this.state.lessonOption,
+      requestOptions
+    ).then((res) => {
+      if (res.status === 200) {
+        this.setState({ markClicked: false, showOptions: false });
+        this.props.refresh();
+      } else {
+        console.log(res);
       }
-    );
+    });
   }
 
   clickChange() {
@@ -130,22 +133,25 @@ class LessonCard extends React.Component {
         }),
       };
 
-      await fetch("/lessons/" + this.state.lessonOption, requestOptions).then(
-        (res) => {
-          if (res.status === 200) {
-            this.setState({
-              changeClicked: false,
-              showOptions: false,
-              dateValue: new Date(),
-              dateChanged: false,
-              dateDisplayValue: "Reschedule Date/Time",
-            });
-            this.props.refresh();
-          } else {
-            console.log(res);
-          }
+      await fetch(
+        process.env.REACT_APP_SERVER_URL +
+          "/lessons/" +
+          this.state.lessonOption,
+        requestOptions
+      ).then((res) => {
+        if (res.status === 200) {
+          this.setState({
+            changeClicked: false,
+            showOptions: false,
+            dateValue: new Date(),
+            dateChanged: false,
+            dateDisplayValue: "Reschedule Date/Time",
+          });
+          this.props.refresh();
+        } else {
+          console.log(res);
         }
-      );
+      });
     }
   }
 

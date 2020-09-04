@@ -65,15 +65,16 @@ class ChangeStudentCard extends React.Component {
         body: JSON.stringify({ lessonTime }),
       };
 
-      await fetch("/student/" + this.props.student._id, requestOptions).then(
-        (res) => {
-          if (res.status === 200) {
-            this.props.exit();
-          } else {
-            console.log(res);
-          }
+      await fetch(
+        process.env.REACT_APP_SERVER_URL + "/student/" + this.props.student._id,
+        requestOptions
+      ).then((res) => {
+        if (res.status === 200) {
+          this.props.exit();
+        } else {
+          console.log(res);
         }
-      );
+      });
     }
   }
 
@@ -124,15 +125,16 @@ class ChangeStudentCard extends React.Component {
         body: JSON.stringify(body),
       };
 
-      await fetch("/student/" + this.props.student._id, requestOptions).then(
-        (res) => {
-          if (res.status === 200) {
-            this.props.exit();
-          } else {
-            console.log(res);
-          }
+      await fetch(
+        process.env.REACT_APP_SERVER_URL + "/student/" + this.props.student._id,
+        requestOptions
+      ).then((res) => {
+        if (res.status === 200) {
+          this.props.exit();
+        } else {
+          console.log(res);
         }
-      );
+      });
     }
   }
 

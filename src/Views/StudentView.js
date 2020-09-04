@@ -21,7 +21,7 @@ class StudentView extends React.Component {
 
   async refreshContent() {
     if (this.state.refresh) {
-      await fetch("/student", {
+      await fetch(process.env.REACT_APP_SERVER_URL + "/student", {
         headers: { Authorization: "Bearer " + this.state.teacherToken },
       })
         .then((res, req) => {

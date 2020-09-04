@@ -130,7 +130,10 @@ class Login extends React.Component {
         body: JSON.stringify(body),
       };
 
-      await fetch("/teacher/login", requestOptions)
+      await fetch(
+        process.env.REACT_APP_SERVER_URL + "/teacher/login",
+        requestOptions
+      )
         .then((res) => {
           if (res.status === 200) {
             return res.json();
@@ -163,7 +166,10 @@ class Login extends React.Component {
             password: this.state.passwordValue,
           }),
         };
-        await fetch("/teacher", requestOptions)
+        await fetch(
+          process.env.REACT_APP_SERVER_URL + "/teacher",
+          requestOptions
+        )
           .then(async (res) => {
             if (res.status === 201) {
               return res.json();

@@ -27,7 +27,7 @@ class LessonsView extends React.Component {
 
   async generateLessons() {
     const lessons = [];
-    await fetch("/lessons", {
+    await fetch(process.env.REACT_APP_SERVER_URL + "/lessons", {
       headers: { Authorization: "Bearer " + this.state.teacherToken },
     })
       .then((res) => {
