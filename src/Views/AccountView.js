@@ -37,8 +37,24 @@ class AccountView extends React.Component {
               className="login-input-text"
               placeholder="Confirm Password"
             ></input>
+
             <br />
             <br />
+            <input
+              type="password"
+              className="login-input-text"
+              placeholder="New Password"
+            ></input>
+            <br />
+            <br />
+            <input
+              type="password"
+              className="login-input-text"
+              placeholder="Confirm New Password"
+            ></input>
+            <br />
+            <br />
+
             <button className="login-input-button">Confirm</button>
           </form>
         </div>

@@ -75,7 +75,15 @@ class LessonsView extends React.Component {
     });
 
     let cards = this.state.filteredLessons.map((stu) => {
-      return <LessonCard key={stu.student._id} student={stu} />;
+      return (
+        <LessonCard
+          key={stu.student._id}
+          student={stu}
+          refresh={() => {
+            this.generateLessons();
+          }}
+        />
+      );
     });
 
     if (cards.length === 0) {

@@ -164,21 +164,33 @@ class Login extends React.Component {
           }),
         };
         await fetch("/teacher", requestOptions)
-          .then((res) => {
+          .then(async (res) => {
             if (res.status === 201) {
               return res.json();
-            } else
-              throw new Error(
-                res.status.toString() + " Error creating account"
-              );
+            } else {
+              const e = await res.json();
+              const error = JSON.stringify(e);
+              throw new Error(error);
+            }
           })
           .then((res) => {
             const calendarAuth = res.calendarAuthURL;
             this.setState({ calendarAuth, showAuth: true });
           })
-          .catch((e) => {
-            console.log(e);
+          .catch(async (e) => {
+            const error = JSON.parse(e.message);
+            if (error.code === 11000) {
+              this.setState({
+                errorMessage:
+                  "Account already exists for entered email address",
+              });
+            } else
+              this.setState({
+                errorMessage: error.errors.password.properties.message,
+              });
           });
+      } else {
+        this.setState({ errorMessage: "Email or passwords do not match." });
       }
     }
   }

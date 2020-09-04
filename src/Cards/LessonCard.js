@@ -53,6 +53,7 @@ class LessonCard extends React.Component {
       (res) => {
         if (res.status === 200) {
           this.setState({ markClicked: false, showOptions: false });
+          this.props.refresh();
         } else {
           console.log(res);
         }
@@ -78,6 +79,7 @@ class LessonCard extends React.Component {
       (res) => {
         if (res.status === 200) {
           this.setState({ markClicked: false, showOptions: false });
+          this.props.refresh();
         } else {
           console.log(res);
         }
@@ -103,6 +105,7 @@ class LessonCard extends React.Component {
       (res) => {
         if (res.status === 200) {
           this.setState({ markClicked: false, showOptions: false });
+          this.props.refresh();
         } else {
           console.log(res);
         }
@@ -137,6 +140,7 @@ class LessonCard extends React.Component {
               dateChanged: false,
               dateDisplayValue: "Reschedule Date/Time",
             });
+            this.props.refresh();
           } else {
             console.log(res);
           }
@@ -329,7 +333,6 @@ class LessonCard extends React.Component {
           </button>
           <p className="content-text">{student}</p>
           {lessons.map((lesson, index) => {
-            console.log(lesson);
             return (
               <div className="content-details-border">
                 <p className="content-details content-details-left">{lesson}</p>{" "}
