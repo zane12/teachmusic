@@ -23,6 +23,7 @@ class Login extends React.Component {
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
   }
 
+  //arbitrary comment
   registerEmailHandler() {
     let registerEmailInput = null;
 
