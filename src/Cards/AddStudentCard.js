@@ -174,6 +174,7 @@ class AddStudentCard extends React.Component {
             ></input>
             <p className="input-error-text">{this.state.cNameError}</p>
             <Datetime
+              utc={true}
               isValidDate={this.dateValidator}
               timeConstraints={{ minutes: { step: 15 } }}
               inputProps={{
