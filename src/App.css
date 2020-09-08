@@ -58,7 +58,7 @@ p {
 
 .calendar-frame {
   border: solid 1px #777;
-  width: 880px;
+  width: 95%;
   height: 640px;
   margin: 8px;
 }
@@ -117,6 +117,7 @@ p {
 .filters-selected {
   background-color: #008542;
   color: #ffffff;
+  white-space: nowrap;
 }
 
 .lesson-filters {
@@ -135,9 +136,21 @@ p {
   width: 80%;
 }
 
+.navicon-container {
+  display: none;
+  width: 40%;
+  text-align: right;
+}
+
 @media only screen and (max-width: 700px) {
   body {
     max-width: 500px;
+  }
+
+  .filters {
+    padding: 16px;
+    margin: 0;
+    line-height: 40px;
   }
 
   h1 {
@@ -160,6 +173,15 @@ p {
     width: 80px;
     height: 80px;
   }
+
+  .navicon-container {
+    display: inline-block;
+    width: 20%;
+  }
+
+  .calendar-frame {
+    width: 95%;
+  }
 }
 
 @media only screen and (min-width: 701px) and (max-width: 780px) {
@@ -171,6 +193,10 @@ p {
     margin: 6px;
     width: 30%;
   }
+  .navicon-container {
+    display: inline-block;
+    width: 25%;
+  }
 }
 
 @media only screen and (min-width: 781px) and (max-width: 940px) {
@@ -180,6 +206,11 @@ p {
 
   .content {
     margin: 24px;
+    width: 30%;
+  }
+
+  .navicon-container {
+    display: inline-block;
     width: 30%;
   }
 }
@@ -247,4 +278,10 @@ p {
 
 .hidden {
   display: none;
+}
+
+.scroll-box-mobile {
+  padding: 24px;
+  height: 100%;
+  background-color: #0a5f40;
 }

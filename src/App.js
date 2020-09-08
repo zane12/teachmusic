@@ -19,6 +19,7 @@ class App extends React.Component {
     studentsSelected: true,
     lessonsSelected: false,
     accountSelected: false,
+    dashboardSelected: false,
   };
 
   componentDidMount() {
@@ -36,12 +37,23 @@ class App extends React.Component {
     }
   }
 
+  clickNav() {
+    this.setState({
+      studentsSelected: false,
+      calendarSelected: false,
+      lessonsSelected: false,
+      accountSelected: false,
+      dashboardSelected: true,
+    });
+  }
+
   onStudentsPress(e) {
     this.setState({
       studentsSelected: true,
       calendarSelected: false,
       lessonsSelected: false,
       accountSelected: false,
+      dashboardSelected: false,
     });
   }
 
@@ -51,6 +63,7 @@ class App extends React.Component {
       studentsSelected: false,
       lessonsSelected: false,
       accountSelected: false,
+      dashboardSelected: false,
     });
   }
 
@@ -60,6 +73,7 @@ class App extends React.Component {
       studentsSelected: false,
       calendarSelected: false,
       accountSelected: false,
+      dashboardSelected: false,
     });
   }
 
@@ -69,6 +83,7 @@ class App extends React.Component {
       lessonsSelected: false,
       calendarSelected: false,
       studentsSelected: false,
+      dashboardSelected: false,
     });
   }
 
@@ -129,6 +144,19 @@ class App extends React.Component {
           teacherToken={this.state.teacherToken}
         />
       );
+    } else if (this.state.dashboardSelected) {
+      view = (
+        <div className="scroll-box-mobile">
+          <Dashboard
+            onStudentsPress={this.onStudentsPress.bind(this)}
+            onCalendarPress={this.onCalendarPress.bind(this)}
+            onLessonsPress={this.onLessonsPress.bind(this)}
+            onAccountPress={this.onAccountPress.bind(this)}
+            teacher={this.state.teacher}
+          />
+          <p onClick={this.handleLogout.bind(this)}>Logout</p>
+        </div>
+      );
     }
     if (this.state.loggedInAsTeacher) {
       return (
@@ -147,7 +175,21 @@ class App extends React.Component {
           <div className="main-box">
             <div className="main-color-box">
               <div className="header-box">
-                <h1>Teachmusic</h1>
+                <h1>
+                  Teachmusic{" "}
+                  <div className="navicon-container">
+                    <img
+                      className="navicon-container"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                      }}
+                      src={require("./navicon.png")}
+                      alt=""
+                      onClick={this.clickNav.bind(this)}
+                    ></img>
+                  </div>
+                </h1>
               </div>
               {view}
             </div>
