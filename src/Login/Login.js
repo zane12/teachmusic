@@ -23,7 +23,6 @@ class Login extends React.Component {
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
   }
 
-  //arbitrary comment
   registerEmailHandler() {
     let registerEmailInput = null;
 
@@ -103,6 +102,7 @@ class Login extends React.Component {
     if (this.state.register) {
       this.setState({
         addRegisterInput: false,
+        addAuthButton: false,
       });
     }
   }
@@ -123,6 +123,7 @@ class Login extends React.Component {
 
       if (params.get("code")) {
         body.calendarAuthCode = params.get("code");
+        body.authorized = true;
       }
 
       const requestOptions = {
@@ -143,9 +144,18 @@ class Login extends React.Component {
           }
         })
         .then((data) => {
-          window.sessionStorage.setItem("token", data.token);
-          window.sessionStorage.setItem("teacher", data.teacher.name);
-          window.sessionStorage.setItem("teacherId", data.teacher._id);
+          if (data.teacher.authorized || body.authorized) {
+            window.sessionStorage.setItem("token", data.token);
+            window.sessionStorage.setItem("teacher", data.teacher.name);
+            window.sessionStorage.setItem("teacherId", data.teacher._id);
+          } else {
+            this.setState({
+              showAuth: true,
+              calendarAuth: data.calendarAuthURL,
+            });
+
+            throw new Error("Account not yet authorized for Google Calendar.");
+          }
         })
         .then((res) => {
           window.location = "/";
@@ -177,6 +187,7 @@ class Login extends React.Component {
             } else {
               const e = await res.json();
               const error = JSON.stringify(e);
+
               throw new Error(error);
             }
           })
@@ -190,6 +201,10 @@ class Login extends React.Component {
               this.setState({
                 errorMessage:
                   "Account already exists for entered email address",
+              });
+            } else if (error.errors.password.kind === "minlength") {
+              this.setState({
+                errorMessage: "Password must be at least 7 characters",
               });
             } else
               this.setState({
@@ -236,6 +251,8 @@ class Login extends React.Component {
       if (this.state.showAuth) {
         loginContainer += " expand-expand-login-container";
       }
+    } else if (this.state.showAuth) {
+      loginContainer += " expand-login-container-less";
     }
 
     return (

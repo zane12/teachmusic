@@ -19,6 +19,10 @@
   transition: height 0.5s, margin-top 0.4s;
 }
 
+.expand-login-container-less {
+  height: 250px;
+}
+
 .expand-login-container {
   height: 420px;
 }

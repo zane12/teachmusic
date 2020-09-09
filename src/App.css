@@ -117,7 +117,6 @@ p {
 .filters-selected {
   background-color: #008542;
   color: #ffffff;
-  white-space: nowrap;
 }
 
 .lesson-filters {
@@ -147,10 +146,9 @@ p {
     max-width: 500px;
   }
 
-  .filters {
-    padding: 16px;
-    margin: 0;
-    line-height: 40px;
+  .lesson-filters {
+    display: inline-block;
+    margin-left: 8px;
   }
 
   h1 {
