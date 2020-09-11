@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Datetime from "react-datetime";
 import moment from "moment";
 
@@ -158,7 +159,8 @@ class ChangeStudentCard extends React.Component {
           <label className="content-text content-details">
             {" "}
             This will change all future lessons as well. <br />
-            To change just one lesson click here <br />
+            To change just one lesson click <Link to="/lessons">here</Link>{" "}
+            <br />
             <br />
             Current lesson time: <br />
             {timeString} <br />

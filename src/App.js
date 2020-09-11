@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  useLocation,
+} from "react-router-dom";
 
 import Login from "./Login/Login";
 import "./App.css";
@@ -82,7 +88,13 @@ class App extends React.Component {
                   <h1>
                     Teachmusic{" "}
                     <div className="navicon-container">
-                      <Link to="/dashboard">
+                      <Link
+                        to={(props) => {
+                          let toggle = "/dashboard";
+                          if (props.pathname === "/dashboard") toggle = "/";
+                          return toggle;
+                        }}
+                      >
                         <img
                           className="navicon-container"
                           style={{
