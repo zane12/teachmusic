@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 import Login from "./Login/Login";
 import "./App.css";
@@ -15,11 +16,6 @@ class App extends React.Component {
     teacher: undefined,
     teacherId: undefined,
     teacherToken: undefined,
-    calendarSelected: false,
-    studentsSelected: true,
-    lessonsSelected: false,
-    accountSelected: false,
-    dashboardSelected: false,
   };
 
   componentDidMount() {
@@ -35,56 +31,6 @@ class App extends React.Component {
         teacherToken: window.sessionStorage.getItem("token"),
       });
     }
-  }
-
-  clickNav() {
-    this.setState({
-      studentsSelected: false,
-      calendarSelected: false,
-      lessonsSelected: false,
-      accountSelected: false,
-      dashboardSelected: true,
-    });
-  }
-
-  onStudentsPress(e) {
-    this.setState({
-      studentsSelected: true,
-      calendarSelected: false,
-      lessonsSelected: false,
-      accountSelected: false,
-      dashboardSelected: false,
-    });
-  }
-
-  onCalendarPress(e) {
-    this.setState({
-      calendarSelected: true,
-      studentsSelected: false,
-      lessonsSelected: false,
-      accountSelected: false,
-      dashboardSelected: false,
-    });
-  }
-
-  onLessonsPress(e) {
-    this.setState({
-      lessonsSelected: true,
-      studentsSelected: false,
-      calendarSelected: false,
-      accountSelected: false,
-      dashboardSelected: false,
-    });
-  }
-
-  onAccountPress(e) {
-    this.setState({
-      accountSelected: true,
-      lessonsSelected: false,
-      calendarSelected: false,
-      studentsSelected: false,
-      dashboardSelected: false,
-    });
   }
 
   handleLogin() {
@@ -110,90 +56,93 @@ class App extends React.Component {
   }
 
   render() {
-    let view = null;
+    // if (this.state.dashboardSelected) {
+    //   view = (
+    //     <div className="scroll-box-mobile">
+    //       <Dashboard teacher={this.state.teacher} />
+    //       <p onClick={this.handleLogout.bind(this)}>Logout</p>
+    //     </div>
+    //   );
+    // }
 
-    if (this.state.studentsSelected) {
-      view = (
-        <StudentView
-          teacher={this.state.teacher}
-          teacherId={this.state.teacherId}
-          teacherToken={this.state.teacherToken}
-        />
-      );
-    } else if (this.state.calendarSelected) {
-      view = (
-        <CalendarView
-          teacher={this.state.teacher}
-          teacherId={this.state.teacherId}
-          teacherToken={this.state.teacherToken}
-        />
-      );
-    } else if (this.state.lessonsSelected) {
-      view = (
-        <LessonsView
-          teacher={this.state.teacher}
-          teacherId={this.state.teacherId}
-          teacherToken={this.state.teacherToken}
-        />
-      );
-    } else if (this.state.accountSelected) {
-      view = (
-        <AccountView
-          teacher={this.state.teacher}
-          teacherId={this.state.teacherId}
-          teacherToken={this.state.teacherToken}
-        />
-      );
-    } else if (this.state.dashboardSelected) {
-      view = (
-        <div className="scroll-box-mobile">
-          <Dashboard
-            onStudentsPress={this.onStudentsPress.bind(this)}
-            onCalendarPress={this.onCalendarPress.bind(this)}
-            onLessonsPress={this.onLessonsPress.bind(this)}
-            onAccountPress={this.onAccountPress.bind(this)}
-            teacher={this.state.teacher}
-          />
-          <p onClick={this.handleLogout.bind(this)}>Logout</p>
-        </div>
-      );
-    }
     if (this.state.loggedInAsTeacher) {
       return (
         <div style={{ maxWidth: "940px" }}>
           {" "}
-          <div className="scroll-box">
-            <Dashboard
-              onStudentsPress={this.onStudentsPress.bind(this)}
-              onCalendarPress={this.onCalendarPress.bind(this)}
-              onLessonsPress={this.onLessonsPress.bind(this)}
-              onAccountPress={this.onAccountPress.bind(this)}
-              teacher={this.state.teacher}
-            />
-            <p onClick={this.handleLogout.bind(this)}>Logout</p>
-          </div>
-          <div className="main-box">
-            <div className="main-color-box">
-              <div className="header-box">
-                <h1>
-                  Teachmusic{" "}
-                  <div className="navicon-container">
-                    <img
-                      className="navicon-container"
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                      }}
-                      src={require("./navicon.png")}
-                      alt=""
-                      onClick={this.clickNav.bind(this)}
-                    ></img>
-                  </div>
-                </h1>
-              </div>
-              {view}
+          <Router>
+            <div className="scroll-box">
+              <Dashboard teacher={this.state.teacher} />
+              <Link to="/">
+                <p onClick={this.handleLogout.bind(this)}>Logout</p>{" "}
+              </Link>
             </div>
-          </div>
+            <div className="main-box">
+              <div className="main-color-box">
+                <div className="header-box">
+                  <h1>
+                    Teachmusic{" "}
+                    <div className="navicon-container">
+                      <Link to="/dashboard">
+                        <img
+                          className="navicon-container"
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                          }}
+                          src={require("./navicon.png")}
+                          alt=""
+                        ></img>
+                      </Link>
+                    </div>
+                  </h1>
+                </div>
+
+                <Switch>
+                  <Route path="/students">
+                    <StudentView
+                      teacher={this.state.teacher}
+                      teacherId={this.state.teacherId}
+                      teacherToken={this.state.teacherToken}
+                    />
+                  </Route>
+                  <Route path="/calendar">
+                    <CalendarView
+                      teacher={this.state.teacher}
+                      teacherId={this.state.teacherId}
+                      teacherToken={this.state.teacherToken}
+                    />
+                  </Route>
+                  <Route path="/lessons">
+                    <LessonsView
+                      teacher={this.state.teacher}
+                      teacherId={this.state.teacherId}
+                      teacherToken={this.state.teacherToken}
+                    />
+                  </Route>
+                  <Route path="/account">
+                    <AccountView
+                      teacher={this.state.teacher}
+                      teacherId={this.state.teacherId}
+                      teacherToken={this.state.teacherToken}
+                    />
+                  </Route>
+                  <Route path="/dashboard">
+                    <div className="scroll-box-mobile">
+                      <Dashboard teacher={this.state.teacher} />
+                      <p onClick={this.handleLogout.bind(this)}>Logout</p>
+                    </div>
+                  </Route>
+                  <Route path="/">
+                    <StudentView
+                      teacher={this.state.teacher}
+                      teacherId={this.state.teacherId}
+                      teacherToken={this.state.teacherToken}
+                    />
+                  </Route>
+                </Switch>
+              </div>
+            </div>
+          </Router>
         </div>
       );
     } else {

@@ -141,6 +141,10 @@ p {
   text-align: right;
 }
 
+.button-link {
+  text-decoration: none;
+}
+
 @media only screen and (max-width: 700px) {
   body {
     max-width: 500px;
