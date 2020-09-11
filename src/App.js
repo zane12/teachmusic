@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 import Login from "./Login/Login";
 import "./App.css";
@@ -22,6 +16,7 @@ class App extends React.Component {
     teacher: undefined,
     teacherId: undefined,
     teacherToken: undefined,
+    mobileDashboard: false,
   };
 
   componentDidMount() {
@@ -61,6 +56,12 @@ class App extends React.Component {
     window.sessionStorage.removeItem("teacherId");
   }
 
+  handleDashboard() {
+    this.setState({
+      mobileDashboard: !this.state.mobileDashboard,
+    });
+  }
+
   render() {
     // if (this.state.dashboardSelected) {
     //   view = (
@@ -72,12 +73,72 @@ class App extends React.Component {
     // }
 
     if (this.state.loggedInAsTeacher) {
+      let view = null;
+
+      if (this.state.mobileDashboard) {
+        view = (
+          <div className="scroll-box-mobile">
+            <Dashboard
+              click={this.handleDashboard.bind(this)}
+              teacher={this.state.teacher}
+            />
+            <p onClick={this.handleLogout.bind(this)}>Logout</p>
+          </div>
+        );
+      } else {
+        view = (
+          <Switch>
+            <Route path="/students">
+              <StudentView
+                teacher={this.state.teacher}
+                teacherId={this.state.teacherId}
+                teacherToken={this.state.teacherToken}
+              />
+            </Route>
+            <Route path="/calendar">
+              <CalendarView
+                teacher={this.state.teacher}
+                teacherId={this.state.teacherId}
+                teacherToken={this.state.teacherToken}
+              />
+            </Route>
+            <Route path="/lessons">
+              <LessonsView
+                teacher={this.state.teacher}
+                teacherId={this.state.teacherId}
+                teacherToken={this.state.teacherToken}
+              />
+            </Route>
+            <Route path="/account">
+              <AccountView
+                teacher={this.state.teacher}
+                teacherId={this.state.teacherId}
+                teacherToken={this.state.teacherToken}
+              />
+            </Route>
+
+            <Route path="/">
+              <StudentView
+                teacher={this.state.teacher}
+                teacherId={this.state.teacherId}
+                teacherToken={this.state.teacherToken}
+              />
+            </Route>
+          </Switch>
+        );
+      }
+
       return (
         <div style={{ maxWidth: "940px" }}>
           {" "}
           <Router>
             <div className="scroll-box">
-              <Dashboard teacher={this.state.teacher} />
+              <Dashboard
+                click={() => {
+                  return null;
+                }}
+                teacher={this.state.teacher}
+              />
               <Link to="/">
                 <p onClick={this.handleLogout.bind(this)}>Logout</p>{" "}
               </Link>
@@ -88,70 +149,21 @@ class App extends React.Component {
                   <h1>
                     Teachmusic{" "}
                     <div className="navicon-container">
-                      <Link
-                        to={(props) => {
-                          let toggle = "/dashboard";
-                          if (props.pathname === "/dashboard") toggle = "/";
-                          return toggle;
+                      <img
+                        onClick={this.handleDashboard.bind(this)}
+                        className="navicon-container"
+                        style={{
+                          width: "50px",
+                          height: "50px",
                         }}
-                      >
-                        <img
-                          className="navicon-container"
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                          }}
-                          src={require("./navicon.png")}
-                          alt=""
-                        ></img>
-                      </Link>
+                        src={require("./navicon.png")}
+                        alt=""
+                      ></img>
                     </div>
                   </h1>
                 </div>
 
-                <Switch>
-                  <Route path="/students">
-                    <StudentView
-                      teacher={this.state.teacher}
-                      teacherId={this.state.teacherId}
-                      teacherToken={this.state.teacherToken}
-                    />
-                  </Route>
-                  <Route path="/calendar">
-                    <CalendarView
-                      teacher={this.state.teacher}
-                      teacherId={this.state.teacherId}
-                      teacherToken={this.state.teacherToken}
-                    />
-                  </Route>
-                  <Route path="/lessons">
-                    <LessonsView
-                      teacher={this.state.teacher}
-                      teacherId={this.state.teacherId}
-                      teacherToken={this.state.teacherToken}
-                    />
-                  </Route>
-                  <Route path="/account">
-                    <AccountView
-                      teacher={this.state.teacher}
-                      teacherId={this.state.teacherId}
-                      teacherToken={this.state.teacherToken}
-                    />
-                  </Route>
-                  <Route path="/dashboard">
-                    <div className="scroll-box-mobile">
-                      <Dashboard teacher={this.state.teacher} />
-                      <p onClick={this.handleLogout.bind(this)}>Logout</p>
-                    </div>
-                  </Route>
-                  <Route path="/">
-                    <StudentView
-                      teacher={this.state.teacher}
-                      teacherId={this.state.teacherId}
-                      teacherToken={this.state.teacherToken}
-                    />
-                  </Route>
-                </Switch>
+                {view}
               </div>
             </div>
           </Router>
