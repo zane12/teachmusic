@@ -63,15 +63,6 @@ class App extends React.Component {
   }
 
   render() {
-    // if (this.state.dashboardSelected) {
-    //   view = (
-    //     <div className="scroll-box-mobile">
-    //       <Dashboard teacher={this.state.teacher} />
-    //       <p onClick={this.handleLogout.bind(this)}>Logout</p>
-    //     </div>
-    //   );
-    // }
-
     if (this.state.loggedInAsTeacher) {
       let view = null;
 
@@ -82,7 +73,9 @@ class App extends React.Component {
               click={this.handleDashboard.bind(this)}
               teacher={this.state.teacher}
             />
-            <p onClick={this.handleLogout.bind(this)}>Logout</p>
+            <Link to="/">
+              <p onClick={this.handleLogout.bind(this)}>Logout</p>
+            </Link>
           </div>
         );
       } else {
