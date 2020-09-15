@@ -19,6 +19,7 @@ class Login extends React.Component {
       addAuthButton: false,
     };
 
+    this.handleErrors = this.handleErrors.bind(this);
     this.emailChangeHandler = this.emailChangeHandler.bind(this);
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
   }
@@ -97,6 +98,8 @@ class Login extends React.Component {
     event.preventDefault();
     this.setState({
       register: !this.state.register,
+      showAuth: false,
+      errorMessage: "",
     });
 
     if (this.state.register) {
@@ -105,6 +108,20 @@ class Login extends React.Component {
         addAuthButton: false,
       });
     }
+  }
+
+  handleErrors(error) {
+    if (error.code === 11000) {
+      this.setState({
+        errorMessage: "There is already an account with this email",
+      });
+    } else if (error.errors.email) {
+      this.setState({ errorMessage: error.errors.email.properties.message });
+    } else if (error.errors.password) {
+      this.setState({ errorMessage: error.errors.password.properties.message });
+    }
+
+    return error;
   }
 
   async onEnterClick(event) {
@@ -197,19 +214,8 @@ class Login extends React.Component {
           })
           .catch(async (e) => {
             const error = JSON.parse(e.message);
-            if (error.code === 11000) {
-              this.setState({
-                errorMessage:
-                  "Account already exists for entered email address",
-              });
-            } else if (error.errors.password.kind === "minlength") {
-              this.setState({
-                errorMessage: "Password must be at least 7 characters",
-              });
-            } else
-              this.setState({
-                errorMessage: error.errors.password.properties.message,
-              });
+
+            this.handleErrors(error);
           });
       } else {
         this.setState({ errorMessage: "Email or passwords do not match." });
@@ -249,6 +255,10 @@ class Login extends React.Component {
       loginContainer += " expand-login-container";
       registerButtonText = "Cancel";
       if (this.state.showAuth) {
+        this.setState({
+          errorMessage:
+            "Account created, you must authorize with Google Calendar to use this app.",
+        });
         loginContainer += " expand-expand-login-container";
       }
     } else if (this.state.showAuth) {

@@ -20,6 +20,7 @@ class StudentView extends React.Component {
   }
 
   async refreshContent() {
+    console.log(this.state.teacherToken);
     if (this.state.refresh) {
       await fetch(process.env.REACT_APP_SERVER_URL + "/student", {
         headers: { Authorization: "Bearer " + this.state.teacherToken },
@@ -42,16 +43,18 @@ class StudentView extends React.Component {
 
   studentCardHandler(students) {
     const studentContent = students.map((student) => {
-      return (
-        <StudentCard
-          refresh={() => {
-            this.setState({ refresh: true });
-            this.refreshContent();
-          }}
-          student={student}
-          key={student._id}
-        />
-      );
+      if (student) {
+        return (
+          <StudentCard
+            refresh={() => {
+              this.setState({ refresh: true });
+              this.refreshContent();
+            }}
+            student={student}
+            key={student._id}
+          />
+        );
+      } else return null;
     });
 
     return studentContent;
