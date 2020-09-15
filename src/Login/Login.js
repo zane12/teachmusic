@@ -117,8 +117,19 @@ class Login extends React.Component {
       });
     } else if (error.errors.email) {
       this.setState({ errorMessage: error.errors.email.properties.message });
+      return error;
     } else if (error.errors.password) {
+      console.log(error.errors.password);
+      if (error.errors.password.kind === "minlength") {
+        this.setState({
+          errorMessage:
+            "Password must be at least 7 characters with at least one uppercase and one lowercase letter.",
+        });
+        return error;
+      }
+
       this.setState({ errorMessage: error.errors.password.properties.message });
+      return error;
     }
 
     return error;
@@ -157,7 +168,7 @@ class Login extends React.Component {
           if (res.status === 200) {
             return res.json();
           } else {
-            throw new Error("User not found.");
+            throw new Error("Email/Password combination not found.");
           }
         })
         .then((data) => {
@@ -210,12 +221,20 @@ class Login extends React.Component {
           })
           .then((res) => {
             const calendarAuth = res.calendarAuthURL;
-            this.setState({ calendarAuth, showAuth: true });
+            this.setState({
+              calendarAuth,
+              showAuth: true,
+              errorMessage:
+                "Account created successfully. You must authorize with Google Calendar to use this app.",
+            });
           })
           .catch(async (e) => {
-            const error = JSON.parse(e.message);
-
-            this.handleErrors(error);
+            try {
+              const error = JSON.parse(e.message);
+              this.handleErrors(error);
+            } catch {
+              this.handleErrors(e);
+            }
           });
       } else {
         this.setState({ errorMessage: "Email or passwords do not match." });
@@ -255,10 +274,6 @@ class Login extends React.Component {
       loginContainer += " expand-login-container";
       registerButtonText = "Cancel";
       if (this.state.showAuth) {
-        this.setState({
-          errorMessage:
-            "Account created, you must authorize with Google Calendar to use this app.",
-        });
         loginContainer += " expand-expand-login-container";
       }
     } else if (this.state.showAuth) {
