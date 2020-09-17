@@ -132,7 +132,11 @@ class StudentCard extends React.Component {
     }
 
     return (
-      <div className="content" key={this.props.student._id}>
+      <div
+        style={this.props.style}
+        className="content"
+        key={this.props.student._id}
+      >
         {cardContent}
       </div>
     );

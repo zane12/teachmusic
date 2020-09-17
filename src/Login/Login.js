@@ -186,7 +186,6 @@ class Login extends React.Component {
           }
         })
         .then((res) => {
-          window.location = "/";
           this.props.onLogin();
         })
         .catch((e) => this.setState({ errorMessage: e.message }));

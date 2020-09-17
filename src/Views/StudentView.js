@@ -1,4 +1,5 @@
 import React from "react";
+
 import AddStudentCard from "../Cards/AddStudentCard";
 import StudentCard from "../Cards/StudentCard";
 
@@ -20,7 +21,6 @@ class StudentView extends React.Component {
   }
 
   async refreshContent() {
-    console.log(this.state.teacherToken);
     if (this.state.refresh) {
       await fetch(process.env.REACT_APP_SERVER_URL + "/student", {
         headers: { Authorization: "Bearer " + this.state.teacherToken },

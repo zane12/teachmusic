@@ -68,7 +68,7 @@ class App extends React.Component {
 
       if (this.state.mobileDashboard) {
         view = (
-          <div className="scroll-box-mobile">
+          <div style={{ marginBottom: "-40px" }} className="scroll-box-mobile">
             <Dashboard
               click={this.handleDashboard.bind(this)}
               teacher={this.state.teacher}
