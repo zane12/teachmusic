@@ -9,6 +9,7 @@ import CalendarView from "./Views/CalendarView";
 import StudentView from "./Views/StudentView";
 import LessonsView from "./Views/LessonsView";
 import AccountView from "./Views/AccountView";
+import PaymentView from './Views/PaymentView';
 
 class App extends React.Component {
   state = {
@@ -104,6 +105,13 @@ class App extends React.Component {
             </Route>
             <Route path="/account">
               <AccountView
+                teacher={this.state.teacher}
+                teacherId={this.state.teacherId}
+                teacherToken={this.state.teacherToken}
+              />
+            </Route>
+            <Route path="/payment">
+              <PaymentView
                 teacher={this.state.teacher}
                 teacherId={this.state.teacherId}
                 teacherToken={this.state.teacherToken}

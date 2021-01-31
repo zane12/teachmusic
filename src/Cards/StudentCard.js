@@ -16,7 +16,7 @@ class StudentCard extends React.Component {
       return (
         <span key={this.props.student._id}>
           <p className="content-text content-details">
-            Contact: {this.props.student.contactName}
+            Contact: {this.props.student.contactFirstName + " " + this.props.student.contactLastName}
           </p>
           <p className="content-text content-details">
             Email: {this.props.student.email}

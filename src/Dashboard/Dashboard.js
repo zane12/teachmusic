@@ -26,6 +26,11 @@ function Dashboard(props) {
             Lessons
           </li>
         </Link>
+        <Link className="button-link" to="/payment">
+          <li onClick={click} className="scroll-box-button">
+            Payment
+          </li>
+        </Link>
         <Link className="button-link" to="/account">
           <li onClick={click} className="scroll-box-button">
             Account

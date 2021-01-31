@@ -17,7 +17,10 @@ class Filter extends React.Component {
     };
   }
 
+  
+
   componentDidUpdate() {
+        
     if (this.state.todaySelected) {
       this.filterToday();
     }
@@ -31,6 +34,7 @@ class Filter extends React.Component {
     }
 
     if (this.state.unmarkedSelected) {
+      
       this.filterUnmarked();
     }
 
@@ -128,15 +132,19 @@ class Filter extends React.Component {
   filterUnmarked() {
     const filteredLessons = [];
 
+    
     if (!this.state.filtered) {
       this.setState({ filtered: true });
 
       if (this.props.lessons.length === 0) {
         return null;
       }
+      
+      
       this.props.lessons.forEach((stu, index) => {
+        
         let filteredStu = {};
-
+        
         filteredStu.lessons = stu.lessons.filter((lesson) => {
           return (
             lesson.taught === false &&
@@ -153,6 +161,7 @@ class Filter extends React.Component {
         }
       });
 
+      
       this.state.applyFilter(filteredLessons);
     }
   }

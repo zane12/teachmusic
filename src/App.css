@@ -135,6 +135,11 @@ p {
   width: 80%;
 }
 
+.content.wide-content {
+  max-width: 80%;
+  width: 80%;
+}
+
 .navicon-container {
   display: none;
   width: 40%;

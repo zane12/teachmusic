@@ -37,8 +37,10 @@ class LessonsView extends React.Component {
         response.forEach((stu) => {
           lessons.push(stu);
 
-          this.setState({ lessons });
+          
         });
+        this.setState({ lessons });
+        
       })
       .catch((e) => {
         console.log(e);

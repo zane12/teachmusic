@@ -45,7 +45,8 @@ class CalendarView extends React.Component {
         this.state.calendarName +
         "&color=%23039BE5&color=%2333B679&color=%230B8043&showTitle=0&showNav=1&showPrint=0&showDate=1&showTabs=0&showCalendars=0";
     }
-
+    
+    
     return (
       <iframe
         title={this.state.calendarName}
@@ -53,7 +54,9 @@ class CalendarView extends React.Component {
         className="calendar-frame"
         frameBorder="0"
         scrolling="no"
-      ></iframe>
+      >
+      </iframe>
+      
     );
   }
 }

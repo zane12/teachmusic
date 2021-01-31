@@ -15,8 +15,10 @@ class AddStudentCard extends React.Component {
       dateError: "",
       sName: "",
       sNameError: "",
-      cName: "",
-      cNameError: "",
+      cFirstName: "",
+      cFirstNameError: "",
+      cLastName: "",
+      cLastNameError: "",
       email: "",
       emailError: "",
       phoneNumber: "",
@@ -37,7 +39,8 @@ class AddStudentCard extends React.Component {
 
     const newStudent = {
       name: this.state.sName,
-      contactName: this.state.cName,
+      contactFirstName: this.state.cFirstName,
+      contactLastName: this.state.cLastName,
       lessonTime,
       email: this.state.email,
       contactPhone: this.state.phoneNumber,
@@ -60,7 +63,8 @@ class AddStudentCard extends React.Component {
             dateDisplayValue: "First Lesson Date/Time",
             dateValue: new Date(),
             sName: "",
-            cName: "",
+            cFirstName: "",
+            cLastName: "",
             email: "",
             phoneNumber: "",
           });
@@ -80,13 +84,22 @@ class AddStudentCard extends React.Component {
         } else {
           this.setState({ sNameError: "" });
         }
-        if (errors.contactName) {
+        if (errors.contactFirstName) {
           this.setState({
-            cNameError: "Required field (even if same as above)",
+            cFirstNameError: "Required field (even if same as above)",
           });
         } else {
           this.setState({
-            cNameError: "",
+            cLastNameError: "",
+          });
+        }
+        if (errors.contactLastName) {
+          this.setState({
+            cLastNameError: "Required field (even if same as above)",
+          });
+        } else {
+          this.setState({
+            cLastNameError: "",
           });
         }
         if (
@@ -116,8 +129,12 @@ class AddStudentCard extends React.Component {
     this.setState({ sName: e.target.value });
   }
 
-  contactNameHandler(e) {
-    this.setState({ cName: e.target.value });
+  contactFirstNameHandler(e) {
+    this.setState({ cFirstName: e.target.value });
+  }
+
+  contactLastNameHandler(e) {
+    this.setState({ cLastName: e.target.value });
   }
 
   emailHandler(e) {
@@ -168,9 +185,16 @@ class AddStudentCard extends React.Component {
             <input
               className="student-input-text"
               type="text"
-              placeholder="Contact Name"
-              value={this.state.cName}
-              onChange={this.contactNameHandler.bind(this)}
+              placeholder="Contact First Name"
+              value={this.state.cFirstName}
+              onChange={this.contactFirstNameHandler.bind(this)}
+            ></input>
+            <input
+              className="student-input-text"
+              type="text"
+              placeholder="Contact Last Name"
+              value={this.state.cLastName}
+              onChange={this.contactLastNameHandler.bind(this)}
             ></input>
             <p className="input-error-text">{this.state.cNameError}</p>
             <Datetime
