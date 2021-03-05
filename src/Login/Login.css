@@ -86,6 +86,21 @@
   transition: all 0.4s ease 0s;
 }
 
+.login-spinner {
+  position: relative;
+  height: 50%;
+  animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
 .login-error {
   margin-top: 16px;
   font-weight: normal;

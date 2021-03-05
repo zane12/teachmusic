@@ -1,5 +1,6 @@
 import React from "react";
 import "./Login.css";
+import loginSpinner from './login-spinner.png';
 
 class Login extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Login extends React.Component {
       calendarAuth: "",
       showAuth: false,
       addAuthButton: false,
+      enterPressed: false,
     };
 
     this.handleErrors = this.handleErrors.bind(this);
@@ -111,6 +113,9 @@ class Login extends React.Component {
   }
 
   handleErrors(error) {
+
+    this.setState({enterPressed: false});
+
     if (error.code === 11000) {
       this.setState({
         errorMessage: "There is already an account with this email",
@@ -137,6 +142,8 @@ class Login extends React.Component {
 
   async onEnterClick(event) {
     event.preventDefault();
+
+    this.setState({enterPressed: true});
 
     if (!this.state.addRegisterInput) {
       // Handles logging in and (if present) sends calendar authorization code
@@ -165,6 +172,7 @@ class Login extends React.Component {
         requestOptions
       )
         .then((res) => {
+          this.setState({enterPressed: false});
           if (res.status === 200) {
             return res.json();
           } else {
@@ -204,11 +212,12 @@ class Login extends React.Component {
             password: this.state.passwordValue,
           }),
         };
-        await fetch(
+        await fetch(          
           process.env.REACT_APP_SERVER_URL + "/teacher",
           requestOptions
         )
           .then(async (res) => {
+            this.setState({enterPressed: false});
             if (res.status === 201) {
               return res.json();
             } else {
@@ -236,8 +245,10 @@ class Login extends React.Component {
             }
           });
       } else {
+        this.setState({enterPressed: false});
         this.setState({ errorMessage: "Email or passwords do not match." });
       }
+
     }
   }
 
@@ -265,7 +276,8 @@ class Login extends React.Component {
     }
   }
 
-  render() {
+  render() { 
+
     let loginContainer = "login-container";
     let registerButtonText = "Register";
 
@@ -319,8 +331,7 @@ class Login extends React.Component {
               name="submitlogin"
               onClick={this.onEnterClick.bind(this)}
             >
-              {" "}
-              Enter{" "}
+              {this.state.enterPressed ? <img className='login-spinner' alt='loading' src={loginSpinner} /> : 'Enter'}
             </button>
             <br />
             <br />

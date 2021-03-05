@@ -11,7 +11,6 @@ import LessonsView from "./Views/LessonsView";
 import AccountView from "./Views/AccountView";
 import PaymentView from './Views/PaymentView';
 
-//add comment to update heroku
 
 class App extends React.Component {
   state = {
