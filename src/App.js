@@ -22,6 +22,7 @@ class App extends React.Component {
   };
 
   componentDidMount() {
+    fetch(process.env.REACT_APP_SERVER_URL);
     if (
       window.sessionStorage.getItem("teacher") &&
       window.sessionStorage.getItem("token") &&
